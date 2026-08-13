@@ -34,9 +34,8 @@ class AttiekEcoRepository(private val db: AppDatabase) {
         if (grilleTarifaireDao.count() == 0) {
             grilleTarifaireDao.insertAll(
                 listOf(
-                    GrilleTarifaire(qualite = QualiteJus.PREMIUM, prixParLitre = Constants.PRIX_DEFAULT_PREMIUM),
-                    GrilleTarifaire(qualite = QualiteJus.STANDARD, prixParLitre = Constants.PRIX_DEFAULT_STANDARD),
-                    GrilleTarifaire(qualite = QualiteJus.BASSE, prixParLitre = Constants.PRIX_DEFAULT_BASSE)
+                    GrilleTarifaire(tour = TourProduction.PREMIER, prixParLitre = Constants.PRIX_DEFAULT_PREMIER),
+                    GrilleTarifaire(tour = TourProduction.DEUXIEME, prixParLitre = Constants.PRIX_DEFAULT_DEUXIEME)
                 )
             )
         }
@@ -123,11 +122,10 @@ class AttiekEcoRepository(private val db: AppDatabase) {
         val tour = bidon.tour ?: TourProduction.PREMIER
         val litresReels = bidon.litresReels ?: return false
 
-        val grille = grilleTarifaireDao.getByQualite(qualite)
-        val prixParLitre = grille?.prixParLitre ?: when (qualite) {
-            QualiteJus.PREMIUM -> Constants.PRIX_DEFAULT_PREMIUM
-            QualiteJus.STANDARD -> Constants.PRIX_DEFAULT_STANDARD
-            QualiteJus.BASSE -> Constants.PRIX_DEFAULT_BASSE
+        val grille = grilleTarifaireDao.getByTour(tour)
+        val prixParLitre = grille?.prixParLitre ?: when (tour) {
+            TourProduction.PREMIER -> Constants.PRIX_DEFAULT_PREMIER
+            TourProduction.DEUXIEME -> Constants.PRIX_DEFAULT_DEUXIEME
         }
         val montant = litresReels * prixParLitre
 
@@ -175,12 +173,12 @@ class AttiekEcoRepository(private val db: AppDatabase) {
         collecteDao.rendreDisponible(commande.collecteId)
     }
 
-    suspend fun modifierTarif(qualite: QualiteJus, nouveauPrix: Double) {
-        val existant = grilleTarifaireDao.getByQualite(qualite)
+    suspend fun modifierTarif(tour: TourProduction, nouveauPrix: Double) {
+        val existant = grilleTarifaireDao.getByTour(tour)
         if (existant != null) {
             grilleTarifaireDao.update(existant.copy(prixParLitre = nouveauPrix))
         } else {
-            grilleTarifaireDao.insert(GrilleTarifaire(qualite = qualite, prixParLitre = nouveauPrix))
+            grilleTarifaireDao.insert(GrilleTarifaire(tour = tour, prixParLitre = nouveauPrix))
         }
     }
 

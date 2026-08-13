@@ -41,7 +41,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.attiekeco.data.QualiteJus
+import com.attiekeco.data.TourProduction
 import com.attiekeco.ui.theme.Green40
 import com.attiekeco.ui.theme.Orange40
 
@@ -55,10 +55,9 @@ fun GrilleTarifaireScreen(
 
     val prixModifies = remember { mutableStateMapOf<String, String>() }
 
-    val qualiteLabels = mapOf(
-        QualiteJus.PREMIUM.name to "Premium",
-        QualiteJus.STANDARD.name to "Standard",
-        QualiteJus.BASSE.name to "Basse"
+    val tourLabels = mapOf(
+        TourProduction.PREMIER.name to "1er tour",
+        TourProduction.DEUXIEME.name to "2e tour"
     )
 
     Scaffold(
@@ -85,21 +84,21 @@ fun GrilleTarifaireScreen(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Text(
-                text = "Prix par qualité (FCFA/L)",
+                text = "Prix par tour (FCFA/L)",
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 color = Orange40
             )
 
             Text(
-                text = "Modifiez les tarifs appliqués lors de la collecte selon la qualité du jus.",
+                text = "Modifiez les tarifs appliqués lors de la collecte selon le tour de production.",
                 style = MaterialTheme.typography.bodySmall,
                 color = Color.Gray
             )
 
-            QualiteJus.entries.forEach { qualite ->
-                val currentPrix = grille.find { it.qualite == qualite }?.prixParLitre
-                val editedValue = prixModifies[qualite.name]
+            TourProduction.entries.forEach { tour ->
+                val currentPrix = grille.find { it.tour == tour }?.prixParLitre
+                val editedValue = prixModifies[tour.name]
 
                 Card(
                     modifier = Modifier.fillMaxWidth(),
@@ -116,7 +115,7 @@ fun GrilleTarifaireScreen(
                     ) {
                         Column(modifier = Modifier.weight(1f)) {
                             Text(
-                                text = qualiteLabels[qualite.name] ?: qualite.name,
+                                text = tourLabels[tour.name] ?: tour.name,
                                 style = MaterialTheme.typography.titleMedium,
                                 fontWeight = FontWeight.Bold
                             )
@@ -132,9 +131,9 @@ fun GrilleTarifaireScreen(
                             onValueChange = { newValue ->
                                 val filtered = newValue.filter { c -> c.isDigit() || c == '.' }
                                 if (filtered.isEmpty()) {
-                                    prixModifies.remove(qualite.name)
+                                    prixModifies.remove(tour.name)
                                 } else {
-                                    prixModifies[qualite.name] = filtered
+                                    prixModifies[tour.name] = filtered
                                 }
                             },
                             label = { Text("Nouveau prix") },
@@ -151,10 +150,10 @@ fun GrilleTarifaireScreen(
 
             Button(
                 onClick = {
-                    prixModifies.forEach { (qualiteName, prixText) ->
+                    prixModifies.forEach { (tourName, prixText) ->
                         val prix = prixText.toDoubleOrNull()
                         if (prix != null && prix > 0) {
-                            viewModel.modifierTarif(QualiteJus.valueOf(qualiteName), prix)
+                            viewModel.modifierTarif(TourProduction.valueOf(tourName), prix)
                         }
                     }
                     prixModifies.clear()

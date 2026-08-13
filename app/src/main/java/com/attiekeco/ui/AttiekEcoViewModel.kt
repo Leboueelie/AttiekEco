@@ -156,9 +156,9 @@ class AttiekEcoViewModel(application: Application) : AndroidViewModel(applicatio
         }
     }
 
-    fun modifierTarif(qualite: QualiteJus, nouveauPrix: Double) {
+    fun modifierTarif(tour: TourProduction, nouveauPrix: Double) {
         viewModelScope.launch {
-            repository.modifierTarif(qualite, nouveauPrix)
+            repository.modifierTarif(tour, nouveauPrix)
         }
     }
 

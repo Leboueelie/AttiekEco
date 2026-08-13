@@ -9,11 +9,11 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface GrilleTarifaireDao {
 
-    @Query("SELECT * FROM grille_tarifaire ORDER BY qualite ASC")
+    @Query("SELECT * FROM grille_tarifaire ORDER BY tour ASC")
     fun getAll(): Flow<List<GrilleTarifaire>>
 
-    @Query("SELECT * FROM grille_tarifaire WHERE qualite = :qualite LIMIT 1")
-    suspend fun getByQualite(qualite: QualiteJus): GrilleTarifaire?
+    @Query("SELECT * FROM grille_tarifaire WHERE tour = :tour LIMIT 1")
+    suspend fun getByTour(tour: TourProduction): GrilleTarifaire?
 
     @Query("SELECT COUNT(*) FROM grille_tarifaire")
     suspend fun count(): Int
