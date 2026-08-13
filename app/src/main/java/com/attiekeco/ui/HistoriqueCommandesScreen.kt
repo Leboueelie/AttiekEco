@@ -170,11 +170,6 @@ private fun CommandeCard(
                             text = "$qualiteLabel — ${String.format("%.1f", collecte.litresReels)} L",
                             style = MaterialTheme.typography.bodyMedium
                         )
-                        Text(
-                            text = "Agent : ${collecte.nomAgent}",
-                            style = MaterialTheme.typography.bodySmall,
-                            color = Color.Gray
-                        )
                     }
                     Column(horizontalAlignment = Alignment.End) {
                         Text(
