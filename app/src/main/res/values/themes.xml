@@ -2,4 +2,10 @@
 <resources>
 
     <style name="Theme.AttiekEco" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="Theme.AttiekEco.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/attiek_green</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_logo_attiekeco</item>
+        <item name="postSplashScreenTheme">@style/Theme.AttiekEco</item>
+    </style>
 </resources>
