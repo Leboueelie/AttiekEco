@@ -272,12 +272,6 @@ private fun CollecteDispoCard(
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier.padding(top = 2.dp)
                 )
-                Text(
-                    text = "Agent : ${collecte.nomAgent}",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = Color.Gray,
-                    modifier = Modifier.padding(top = 2.dp)
-                )
             }
             Icon(
                 imageVector = Icons.Filled.LocalDrink,
