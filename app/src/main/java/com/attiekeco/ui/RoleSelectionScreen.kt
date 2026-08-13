@@ -1,39 +1,44 @@
 package com.attiekeco.ui
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Agriculture
-import androidx.compose.material.icons.filled.AdminPanelSettings
 import androidx.compose.material.icons.filled.Business
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.attiekeco.R
 import com.attiekeco.ui.theme.AttiekEcoTheme
-import com.attiekeco.ui.theme.Green40
-import com.attiekeco.ui.theme.Orange40
+import com.attiekeco.ui.theme.AttiekGreen
+import com.attiekeco.ui.theme.AttiekGreenDark
 
 @Composable
 fun RoleSelectionScreen(
@@ -46,139 +51,155 @@ fun RoleSelectionScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(
-                Brush.verticalGradient(
-                    colors = listOf(Orange40, Color.White)
-                )
-            )
+            .background(Color.White)
             .padding(24.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Box(
-            modifier = Modifier
-                .size(80.dp)
-                .background(Green40, MaterialTheme.shapes.extraLarge),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = "AE",
-                style = MaterialTheme.typography.headlineLarge,
-                color = Color.White,
-                fontWeight = FontWeight.Bold
-            )
-        }
+        Image(
+            painter = painterResource(id = R.drawable.ic_logo_attiekeco),
+            contentDescription = "AttiekEco Logo",
+            modifier = Modifier.size(100.dp),
+            contentScale = ContentScale.Fit
+        )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(12.dp))
 
         Text(
             text = "AttiekEco",
             style = MaterialTheme.typography.displaySmall,
             fontWeight = FontWeight.Bold,
-            color = Color.White
+            color = AttiekGreen
         )
         Text(
-            text = "Collecte du liquide de production\nd'attieké",
+            text = "Collecte du liquide de production\nd'attiéké",
             style = MaterialTheme.typography.bodyLarge,
             textAlign = TextAlign.Center,
-            color = Color.White.copy(alpha = 0.9f),
+            color = Color.Gray,
             modifier = Modifier.padding(top = 4.dp)
         )
 
         Spacer(modifier = Modifier.height(48.dp))
 
-        RoleButton(
-            icon = Icons.Filled.Agriculture,
-            label = "Productrice",
-            description = "Déclarer mes bidons de liquide et suivre mes collectes",
-            onClick = onProductriceClick
-        )
-
-        TextButton(
-            onClick = onProductriceConnexionClick,
-            modifier = Modifier.fillMaxWidth()
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(100.dp)
+                .clip(RoundedCornerShape(20.dp))
+                .background(
+                    Brush.horizontalGradient(
+                        colors = listOf(AttiekGreen, AttiekGreenDark)
+                    )
+                )
+                .clickable { onProductriceClick() },
+            contentAlignment = Alignment.CenterStart
         ) {
-            Text(
-                text = "Déjà inscrit ? Se connecter",
-                style = MaterialTheme.typography.bodySmall,
-                color = Color.White.copy(alpha = 0.8f)
-            )
+            Row(
+                modifier = Modifier.padding(horizontal = 24.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Agriculture,
+                    contentDescription = null,
+                    tint = Color.White,
+                    modifier = Modifier.size(40.dp)
+                )
+                Spacer(modifier = Modifier.width(16.dp))
+                Column {
+                    Text(
+                        text = "PRODUCTRICE",
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White,
+                        letterSpacing = 2.sp
+                    )
+                    Text(
+                        text = "Déclarer et suivre mes collectes",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = Color.White.copy(alpha = 0.8f)
+                    )
+                }
+            }
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
-
-        RoleButton(
-            icon = Icons.Filled.Business,
-            label = "Entreprise",
-            description = "Acheter des liquides disponibles",
-            onClick = onEntrepriseClick
-        )
-
-        TextButton(
-            onClick = onEntrepriseConnexionClick,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(
-                text = "Déjà inscrit ? Se connecter",
-                style = MaterialTheme.typography.bodySmall,
-                color = Color.White.copy(alpha = 0.8f)
-            )
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        OutlinedButton(
-            onClick = onCreateurClick,
-            modifier = Modifier.fillMaxWidth(),
-            colors = ButtonDefaults.outlinedButtonColors(
-                contentColor = Color.White
-            )
-        ) {
-            Icon(
-                imageVector = Icons.Filled.AdminPanelSettings,
-                contentDescription = "Espace Créateur",
-                modifier = Modifier.padding(end = 8.dp)
-            )
-            Text(text = "Espace Créateur")
-        }
-    }
-}
-
-@Composable
-private fun RoleButton(
-    icon: ImageVector,
-    label: String,
-    description: String,
-    onClick: () -> Unit
-) {
-    Button(
-        onClick = onClick,
-        modifier = Modifier.fillMaxWidth(),
-        colors = ButtonDefaults.buttonColors(
-            containerColor = Color.White,
-            contentColor = Orange40
-        )
-    ) {
         Column(
-            modifier = Modifier.padding(vertical = 4.dp),
-            horizontalAlignment = Alignment.Start
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 8.dp),
+            horizontalAlignment = Alignment.End
         ) {
-            Icon(
-                imageVector = icon,
-                contentDescription = label,
-                modifier = Modifier.padding(bottom = 4.dp)
-            )
             Text(
-                text = label,
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold
-            )
-            Text(
-                text = description,
+                text = "Déjà inscrit ? Se connecter",
                 style = MaterialTheme.typography.bodySmall,
-                color = Color.Gray
+                color = AttiekGreen,
+                modifier = Modifier.clickable { onProductriceConnexionClick() }
             )
         }
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(100.dp)
+                .clip(RoundedCornerShape(20.dp))
+                .background(Color.White)
+                .border(2.dp, AttiekGreen, RoundedCornerShape(20.dp))
+                .clickable { onEntrepriseClick() },
+            contentAlignment = Alignment.CenterStart
+        ) {
+            Row(
+                modifier = Modifier.padding(horizontal = 24.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Business,
+                    contentDescription = null,
+                    tint = AttiekGreen,
+                    modifier = Modifier.size(40.dp)
+                )
+                Spacer(modifier = Modifier.width(16.dp))
+                Column {
+                    Text(
+                        text = "ENTREPRISE",
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold,
+                        color = AttiekGreen,
+                        letterSpacing = 2.sp
+                    )
+                    Text(
+                        text = "Acheter des collectes disponibles",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = Color.Gray
+                    )
+                }
+            }
+        }
+
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 8.dp),
+            horizontalAlignment = Alignment.End
+        ) {
+            Text(
+                text = "Déjà inscrit ? Se connecter",
+                style = MaterialTheme.typography.bodySmall,
+                color = AttiekGreen,
+                modifier = Modifier.clickable { onEntrepriseConnexionClick() }
+            )
+        }
+
+        Spacer(modifier = Modifier.height(32.dp))
+
+        Text(
+            text = "Espace Créateur",
+            style = MaterialTheme.typography.bodySmall,
+            color = Color.Gray,
+            modifier = Modifier
+                .clickable { onCreateurClick() }
+                .padding(8.dp)
+        )
     }
 }
 

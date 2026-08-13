@@ -66,7 +66,7 @@ fun AttiekEcoApp() {
                 role = "PRODUCTRICE",
                 onConnexionReussie = { productriceId ->
                     navController.navigate("productriceDashboard/$productriceId") {
-                        popUpTo("role") { inclusive = true }
+                        popUpTo("role") { inclusive = false }
                     }
                 },
                 onBack = { navController.popBackStack() }
@@ -77,7 +77,7 @@ fun AttiekEcoApp() {
                 role = "ENTREPRISE",
                 onConnexionReussie = { entrepriseId ->
                     navController.navigate("entreprise_dashboard/$entrepriseId") {
-                        popUpTo("role") { inclusive = true }
+                        popUpTo("role") { inclusive = false }
                     }
                 },
                 onBack = { navController.popBackStack() }
@@ -116,7 +116,7 @@ fun AttiekEcoApp() {
                 utilisateurId = utilisateurId,
                 onVerificationReussie = {
                     navController.navigate("bienvenue/$role/$utilisateurId") {
-                        popUpTo("role") { inclusive = true }
+                        popUpTo("role") { inclusive = false }
                     }
                 },
                 onBack = { navController.popBackStack() }

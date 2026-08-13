@@ -1,5 +1,7 @@
 package com.attiekeco.ui
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -24,8 +26,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.CardGiftcard
+import androidx.compose.material.icons.filled.Forum
 import androidx.compose.material.icons.filled.History
-import androidx.compose.material.icons.filled.LocalDrink
 import androidx.compose.material.icons.filled.Money
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material3.AlertDialog
@@ -54,6 +57,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -61,6 +65,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.attiekeco.data.QualiteJus
 import com.attiekeco.data.StatutBidon
 import com.attiekeco.data.TourProduction
+import com.attiekeco.ui.theme.AttiekGreen
+import com.attiekeco.ui.theme.AttiekGreenLight
+import com.attiekeco.ui.theme.AttiekOrange
+import com.attiekeco.ui.theme.AttiekOrangeLight
 import com.attiekeco.ui.theme.Green40
 import com.attiekeco.ui.theme.Orange40
 import com.attiekeco.ui.theme.StatutCollecte
@@ -79,20 +87,17 @@ fun ProductriceDashboardScreen(
     val productrice = allProductrices.find { it.id == productriceId }
     val bidons by viewModel.bidonsForProductrice(productriceId).collectAsState(initial = emptyList())
     val collectes by viewModel.collectes.collectAsState(initial = emptyList())
+    val context = LocalContext.current
 
     var showDialog by rememberSaveable { mutableStateOf(false) }
     var selectedQualite by rememberSaveable { mutableStateOf(QualiteJus.STANDARD.name) }
     var selectedTour by rememberSaveable { mutableStateOf(TourProduction.PREMIER.name) }
     var litresText by rememberSaveable { mutableStateOf("") }
     var errorText by rememberSaveable { mutableStateOf("") }
+    var showSurprise by rememberSaveable { mutableStateOf(false) }
 
     val bidonDisponible = bidons.firstOrNull { it.statut == StatutBidon.EN_ATTENTE }
 
-    val qualiteLabels = mapOf(
-        QualiteJus.PREMIUM.name to "Premium",
-        QualiteJus.STANDARD.name to "Standard",
-        QualiteJus.BASSE.name to "Basse"
-    )
     val tourLabels = mapOf(
         TourProduction.PREMIER.name to "1er tour",
         TourProduction.DEUXIEME.name to "2e tour"
@@ -108,6 +113,46 @@ fun ProductriceDashboardScreen(
     val nbSignales = bidons.count { it.statut == StatutBidon.SIGNE_PLN }
     val nbCollectes = bidons.count { it.statut == StatutBidon.COLLECTE }
 
+    // Dialog surprise
+    if (showSurprise) {
+        AlertDialog(
+            onDismissRequest = { showSurprise = false },
+            title = { Text(text = "Félicitations !") },
+            text = {
+                Column(
+                    modifier = Modifier.padding(16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.CardGiftcard,
+                        contentDescription = null,
+                        tint = AttiekOrange,
+                        modifier = Modifier.size(64.dp)
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(
+                        text = "Vous avez gagné une gazinière !",
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold,
+                        color = AttiekGreen
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = "Contactez le service client au 01 50 44 89 61 pour réclamer votre prix.",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = Color.Gray
+                    )
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = { showSurprise = false }) {
+                    Text("Merci !", color = AttiekGreen)
+                }
+            }
+        )
+    }
+
+    // Dialog déclaration bidon
     if (showDialog && bidonDisponible != null) {
         AlertDialog(
             onDismissRequest = {
@@ -119,7 +164,7 @@ fun ProductriceDashboardScreen(
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                     Card(
-                        colors = CardDefaults.cardColors(containerColor = Color(0xFFFFF3E0))
+                        colors = CardDefaults.cardColors(containerColor = AttiekOrangeLight)
                     ) {
                         Text(
                             text = "$nbEnAttente bidon(s) disponible(s)",
@@ -128,28 +173,6 @@ fun ProductriceDashboardScreen(
                             fontWeight = FontWeight.Bold,
                             color = Orange40
                         )
-                    }
-
-                    Text(
-                        text = "Qualité du jus",
-                        style = MaterialTheme.typography.titleSmall,
-                        fontWeight = FontWeight.Bold
-                    )
-                    FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                        QualiteJus.entries.forEach { qualite ->
-                            FilterChip(
-                                selected = selectedQualite == qualite.name,
-                                onClick = { selectedQualite = qualite.name },
-                                label = { Text(qualiteLabels[qualite.name] ?: qualite.name) },
-                                leadingIcon = if (selectedQualite == qualite.name) {
-                                    { Icon(Icons.Filled.Check, contentDescription = null, modifier = Modifier.size(16.dp)) }
-                                } else null,
-                                colors = FilterChipDefaults.filterChipColors(
-                                    selectedContainerColor = Orange40.copy(alpha = 0.15f),
-                                    selectedLabelColor = Orange40
-                                )
-                            )
-                        }
                     }
 
                     Text(
@@ -167,8 +190,8 @@ fun ProductriceDashboardScreen(
                                     { Icon(Icons.Filled.Check, contentDescription = null, modifier = Modifier.size(16.dp)) }
                                 } else null,
                                 colors = FilterChipDefaults.filterChipColors(
-                                    selectedContainerColor = Orange40.copy(alpha = 0.15f),
-                                    selectedLabelColor = Orange40
+                                    selectedContainerColor = AttiekGreen.copy(alpha = 0.15f),
+                                    selectedLabelColor = AttiekGreen
                                 )
                             )
                         }
@@ -210,7 +233,7 @@ fun ProductriceDashboardScreen(
                         litresText = ""
                     }
                 ) {
-                    Text("Envoyer", color = Orange40)
+                    Text("Envoyer", color = AttiekGreen)
                 }
             },
             dismissButton = {
@@ -265,7 +288,7 @@ fun ProductriceDashboardScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
-                colors = CardDefaults.cardColors(containerColor = Orange40),
+                colors = CardDefaults.cardColors(containerColor = AttiekGreen),
                 shape = RoundedCornerShape(16.dp)
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
@@ -338,7 +361,7 @@ fun ProductriceDashboardScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
-                colors = CardDefaults.cardColors(containerColor = Color(0xFFE8F5E9)),
+                colors = CardDefaults.cardColors(containerColor = AttiekGreenLight),
                 shape = RoundedCornerShape(16.dp)
             ) {
                 Row(
@@ -350,7 +373,7 @@ fun ProductriceDashboardScreen(
                     Box(
                         modifier = Modifier
                             .size(48.dp)
-                            .background(Green40, CircleShape),
+                            .background(AttiekGreen, CircleShape),
                         contentAlignment = Alignment.Center
                     ) {
                         Icon(
@@ -366,7 +389,7 @@ fun ProductriceDashboardScreen(
                             text = "${formatDec(montantTotal)} FCFA",
                             style = MaterialTheme.typography.headlineMedium,
                             fontWeight = FontWeight.Bold,
-                            color = Green40
+                            color = AttiekGreen
                         )
                         Text(
                             text = "Total reçu depuis le début",
@@ -384,7 +407,7 @@ fun ProductriceDashboardScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Orange40)
+                colors = ButtonDefaults.buttonColors(containerColor = AttiekGreen)
             ) {
                 Icon(
                     imageVector = Icons.Filled.Notifications,
@@ -424,6 +447,44 @@ fun ProductriceDashboardScreen(
                     modifier = Modifier.padding(end = 8.dp)
                 )
                 Text(text = "Historique des collectes")
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Bouton Contacter le service client
+            OutlinedButton(
+                onClick = {
+                    val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:+2250150448961"))
+                    context.startActivity(intent)
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Forum,
+                    contentDescription = null,
+                    modifier = Modifier.padding(end = 8.dp)
+                )
+                Text(text = "Contacter le service client")
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Bouton Surprise
+            Button(
+                onClick = { showSurprise = true },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = AttiekOrange)
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.CardGiftcard,
+                    contentDescription = null,
+                    modifier = Modifier.padding(end = 8.dp)
+                )
+                Text(text = "Surprise", color = Color.White)
             }
 
             Spacer(modifier = Modifier.height(16.dp))

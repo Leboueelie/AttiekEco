@@ -21,6 +21,7 @@ import androidx.compose.material.icons.filled.Group
 import androidx.compose.material.icons.filled.LocalDrink
 import androidx.compose.material.icons.filled.Receipt
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material.icons.automirrored.filled.ShowChart
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -41,6 +42,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.attiekeco.ui.theme.AttiekGreen
+import com.attiekeco.ui.theme.AttiekOrange
 import com.attiekeco.ui.theme.Green40
 import com.attiekeco.ui.theme.Orange40
 
@@ -125,14 +128,14 @@ fun AdminDashboardScreen(
                     icon = Icons.Filled.LocalDrink,
                     label = "Collectes",
                     value = "${collectes.size}",
-                    color = Color(0xFF42A5F5),
+                    color = AttiekGreen,
                     modifier = Modifier.weight(1f)
                 )
                 AdminStatCard(
                     icon = Icons.Filled.Receipt,
                     label = "Commandes",
                     value = "${commandes.size}",
-                    color = Color(0xFF7E57C2),
+                    color = AttiekOrange,
                     modifier = Modifier.weight(1f)
                 )
             }
@@ -149,14 +152,14 @@ fun AdminDashboardScreen(
                     icon = Icons.Filled.LocalDrink,
                     label = "Volume total",
                     value = "${String.format("%.0f", totalLitres)} L",
-                    color = Color(0xFF26A69A),
+                    color = AttiekGreen,
                     modifier = Modifier.weight(1f)
                 )
                 AdminStatCard(
                     icon = Icons.Filled.AttachMoney,
                     label = "Revenu total",
                     value = "${String.format("%.0f", totalMontant)} F",
-                    color = Color(0xFF66BB6A),
+                    color = AttiekOrange,
                     modifier = Modifier.weight(1f)
                 )
             }
@@ -200,6 +203,54 @@ fun AdminDashboardScreen(
                 subtitle = if (commandesEnCours > 0) "$commandesEnCours en attente" else "Valider ou annuler les commandes",
                 onClick = onCommandes
             )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Text(
+                text = "Contact",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
+            )
+
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 4.dp),
+                shape = RoundedCornerShape(12.dp)
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Phone,
+                        contentDescription = null,
+                        tint = Orange40,
+                        modifier = Modifier.size(32.dp)
+                    )
+                    Spacer(modifier = Modifier.width(12.dp))
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            text = "Service AttiekEco",
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Text(
+                            text = "01 50 44 89 61",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = Color.Gray
+                        )
+                        Text(
+                            text = "Service client disponible du lundi au samedi",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = Color.Gray
+                        )
+                    }
+                }
+            }
 
             Spacer(modifier = Modifier.height(16.dp))
         }
