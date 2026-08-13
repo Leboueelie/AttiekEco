@@ -131,7 +131,8 @@ private fun CommandeCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Commande #${commande.id}",
+                    text = "#${commande.id}",
+                    style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold
                 )
                 Row(verticalAlignment = Alignment.CenterVertically) {

@@ -262,7 +262,8 @@ private fun CommandeAdminCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Commande #${commande.id}",
+                    text = "#${commande.id}",
+                    style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold
                 )
                 Row(verticalAlignment = Alignment.CenterVertically) {
@@ -429,6 +430,7 @@ private fun CommandeTraiteeCard(
                 ) {
                     Text(
                         text = "#${commande.id} — $entrepriseNom",
+                        style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold
                     )
                     Text(
