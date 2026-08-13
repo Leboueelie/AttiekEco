@@ -134,8 +134,6 @@ fun CollecteDetailScreen(
                 Column(modifier = Modifier.padding(16.dp)) {
                     DetailRow(icon = Icons.Filled.LocalDrink, label = "Volume", value = "${String.format("%.1f", collecte.litresReels)} litres")
                     Spacer(modifier = Modifier.height(8.dp))
-                    DetailRow(icon = Icons.Filled.Person, label = "Agent", value = collecte.nomAgent)
-                    Spacer(modifier = Modifier.height(8.dp))
                     DetailRow(icon = Icons.Filled.LocationOn, label = "Date", value = dateFormatter.format(collecte.dateCollecte))
                 }
             }
