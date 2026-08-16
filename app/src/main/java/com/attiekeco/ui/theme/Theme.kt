@@ -55,10 +55,10 @@ private val AttiekDarkColorScheme = darkColorScheme(
 
 @Composable
 fun AttiekEcoTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    darkTheme: Boolean = false,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = if (darkTheme) AttiekDarkColorScheme else AttiekColorScheme
+    val colorScheme = AttiekColorScheme
 
     MaterialTheme(
         colorScheme = colorScheme,
