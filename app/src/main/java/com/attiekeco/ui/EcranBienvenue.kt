@@ -31,6 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.attiekeco.ui.theme.AttiekGreenLight
 import com.attiekeco.ui.theme.Green40
 import com.attiekeco.ui.theme.Orange40
 
@@ -55,7 +56,7 @@ fun EcranBienvenue(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
+            .background(AttiekGreenLight)
             .padding(24.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally

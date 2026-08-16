@@ -39,6 +39,7 @@ import com.attiekeco.R
 import com.attiekeco.ui.theme.AttiekEcoTheme
 import com.attiekeco.ui.theme.AttiekGreen
 import com.attiekeco.ui.theme.AttiekGreenDark
+import com.attiekeco.ui.theme.AttiekGreenLight
 
 @Composable
 fun RoleSelectionScreen(
@@ -143,7 +144,7 @@ fun RoleSelectionScreen(
                 .fillMaxWidth()
                 .height(100.dp)
                 .clip(RoundedCornerShape(20.dp))
-            .background(MaterialTheme.colorScheme.background)
+            .background(AttiekGreenLight)
                 .border(2.dp, AttiekGreen, RoundedCornerShape(20.dp))
                 .clickable { onEntrepriseClick() },
             contentAlignment = Alignment.CenterStart
