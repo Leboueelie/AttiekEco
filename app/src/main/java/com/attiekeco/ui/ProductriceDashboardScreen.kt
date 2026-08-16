@@ -1,6 +1,5 @@
 package com.attiekeco.ui
 
-import com.attiekeco.R
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.background
@@ -285,16 +284,6 @@ fun ProductriceDashboardScreen(
                 .padding(padding)
                 .verticalScroll(rememberScrollState())
         ) {
-            androidx.compose.foundation.Image(
-                painter = androidx.compose.ui.res.painterResource(id = R.drawable.ic_logo_attiekeco),
-                contentDescription = "Logo AttiekEco",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 80.dp, vertical = 8.dp)
-                    .height(80.dp),
-                contentScale = androidx.compose.ui.layout.ContentScale.Fit
-            )
-
             Card(
                 modifier = Modifier
                     .fillMaxWidth()

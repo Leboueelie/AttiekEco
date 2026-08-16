@@ -1,6 +1,5 @@
 package com.attiekeco.ui
 
-import com.attiekeco.R
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -90,16 +89,6 @@ fun EntrepriseDashboardScreen(
                 .fillMaxSize()
                 .padding(padding)
         ) {
-            androidx.compose.foundation.Image(
-                painter = androidx.compose.ui.res.painterResource(id = R.drawable.ic_logo_attiekeco),
-                contentDescription = "Logo AttiekEco",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 80.dp, vertical = 8.dp)
-                    .height(80.dp),
-                contentScale = androidx.compose.ui.layout.ContentScale.Fit
-            )
-
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
