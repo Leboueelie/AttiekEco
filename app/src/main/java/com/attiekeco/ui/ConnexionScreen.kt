@@ -17,6 +17,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -56,7 +57,7 @@ fun ConnexionScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(AttiekGreenLight)
+            .background(Color.White)
             .padding(24.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -88,6 +89,13 @@ fun ConnexionScreen(
         Spacer(modifier = Modifier.height(24.dp))
 
         if (isEntreprise) {
+            val textFieldColors = OutlinedTextFieldDefaults.colors(
+                focusedTextColor = Color.Black,
+                unfocusedTextColor = Color.Black,
+                cursorColor = Orange40,
+                focusedBorderColor = Orange40,
+                unfocusedBorderColor = Color.Gray
+            )
             OutlinedTextField(
                 value = nomEntreprise,
                 onValueChange = {
@@ -96,7 +104,8 @@ fun ConnexionScreen(
                 },
                 label = { Text("Nom de l'entreprise") },
                 singleLine = true,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                colors = textFieldColors
             )
 
             Spacer(modifier = Modifier.height(12.dp))
@@ -110,9 +119,17 @@ fun ConnexionScreen(
                 label = { Text("Matricule") },
                 placeholder = { Text("CI-2024-001") },
                 singleLine = true,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                colors = textFieldColors
             )
         } else {
+            val textFieldColors = OutlinedTextFieldDefaults.colors(
+                focusedTextColor = Color.Black,
+                unfocusedTextColor = Color.Black,
+                cursorColor = Orange40,
+                focusedBorderColor = Orange40,
+                unfocusedBorderColor = Color.Gray
+            )
             OutlinedTextField(
                 value = telephone,
                 onValueChange = {
@@ -130,7 +147,8 @@ fun ConnexionScreen(
                             Text("10 chiffres requis")
                         }
                     },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                colors = textFieldColors
             )
         }
 

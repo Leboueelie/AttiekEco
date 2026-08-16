@@ -56,7 +56,7 @@ fun EcranBienvenue(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(AttiekGreenLight)
+            .background(Color.White)
             .padding(24.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally

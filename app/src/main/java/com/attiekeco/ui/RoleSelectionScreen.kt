@@ -144,7 +144,7 @@ fun RoleSelectionScreen(
                 .fillMaxWidth()
                 .height(100.dp)
                 .clip(RoundedCornerShape(20.dp))
-            .background(AttiekGreenLight)
+            .background(Color.White)
                 .border(2.dp, AttiekGreen, RoundedCornerShape(20.dp))
                 .clickable { onEntrepriseClick() },
             contentAlignment = Alignment.CenterStart
