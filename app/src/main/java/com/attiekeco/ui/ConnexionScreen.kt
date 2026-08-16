@@ -117,7 +117,7 @@ fun ConnexionScreen(
                     errorMessage = null
                 },
                 label = { Text("Matricule") },
-                placeholder = { Text("CI-2024-001") },
+                placeholder = { Text("Année-Numéro") },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
                 colors = textFieldColors

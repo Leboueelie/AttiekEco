@@ -132,12 +132,6 @@ fun InscriptionEntrepriseScreen(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    text = "CI-",
-                    style = MaterialTheme.typography.bodyLarge,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(top = 24.dp)
-                )
                 OutlinedTextField(
                     value = matriculeAnnee,
                     onValueChange = { if (it.length <= 4) matriculeAnnee = it.filter { c -> c.isDigit() } },
@@ -152,12 +146,6 @@ fun InscriptionEntrepriseScreen(
                         }
                     },
                     modifier = Modifier.weight(1f)
-                )
-                Text(
-                    text = "-",
-                    style = MaterialTheme.typography.bodyLarge,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(top = 24.dp)
                 )
                 OutlinedTextField(
                     value = matriculeNumero,
